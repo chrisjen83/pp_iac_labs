@@ -1,12 +1,12 @@
 # Create the EC2 instance - EC2 console
 resource "aws_instance" "iac_ec2_instance" {
- ami               = "ami-08586e874d2dde4e4"
+ ami               = "ami-0c01bca01e7fb4e03"
  availability_zone = "${aws_subnet.sub_pub_iac_demo.availability_zone}"
  instance_type     = "${var.instance_type}"
 
- tags {
-   Name = "iac-EC2-instance"
- }
+# tags {
+#   Name = "iac-EC2-instance"
+#}
  key_name = "iac_demo"
  security_groups = [ "${aws_security_group.sg_iac_demo.id}" ]
  subnet_id = "${aws_subnet.sub_pub_iac_demo.id}"
@@ -20,9 +20,9 @@ resource "aws_ebs_volume" "iac_ebs_volume" {
  availability_zone = "${aws_subnet.sub_pub_iac_demo.availability_zone}"
  size              = 1
 
-  tags {
-   Name = "iac-EBS-volume"
- }
+#  tags {
+#   Name = "iac-EBS-volume"
+# }
 }
 
 # Attach the EBS resource to the EC2 instance - EC2 console
@@ -90,6 +90,12 @@ resource "aws_security_group" "sg_iac_demo" {
     protocol    = "tcp"
     cidr_blocks =  [ "0.0.0.0/0" ] # add a CIDR block here
   }
+ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks =  [ "0.0.0.0/0" ]
+}
   egress {
     from_port       = 0
     to_port         = 0
